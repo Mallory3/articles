@@ -4,6 +4,7 @@ dotenv.config();
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+const middleware = ('./articlemiddleware')
 
 
 //boot express
@@ -14,6 +15,8 @@ app.get('/', (req, res) => res.render('index'))
 
 //brings in route to connect article fixtures to mongodb
 app.use('/', require('./routes/articles'));
+
+// app.use(middleware)
 
 
 
