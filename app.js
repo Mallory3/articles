@@ -11,6 +11,7 @@ const app = express();
 
 app.get('/', (req, res) => res.render('index'))
 
+
 //brings in route to connect article fixtures to mongodb
 app.use('/', require('./routes/articles'));
 
@@ -33,7 +34,7 @@ app.use(function(req, res, next) {
 
 
 //create a port to run app on
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 
 //create a server and bring in the port
 app.listen(PORT, function(){

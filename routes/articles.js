@@ -43,6 +43,7 @@ MongoClient.connect(uri,{ useUnifiedTopology: true,useNewUrlParser: true }, func
   artCol.find({}).toArray().then((docs) => {
     console.log("found articles for index")
     res.render('posts', { display: docs });
+    console.log(docs)
   })
 
   const userCol = db.collection('users');
@@ -59,6 +60,64 @@ MongoClient.connect(uri,{ useUnifiedTopology: true,useNewUrlParser: true }, func
   client.close();
 });
 });
+
+
+
+router.get('/posts/:slug', (req, res) => {
+
+  const MongoClient = require('mongodb').MongoClient;
+  require('dotenv').config();
+  
+  const articles = require('../fixtures/articles');
+  const users = require('../fixtures/users');
+  
+  const uri = process.env.DB_CONNECTION;
+  MongoClient.connect(uri,{ useUnifiedTopology: true,useNewUrlParser: true }, function(err, client) {
+     if(err) {
+        console.log('Error occurred while connecting to MongoDB Atlas...\n',err);
+     }
+     console.log('Connected...');
+     // perform actions on the collection object
+  
+    
+     const db = client.db("final-project");
+  
+     const artCol = db.collection('articles');
+  
+    //  artCol.drop();
+    //  artCol.insertMany(articles, (err, cursor) => {
+    //   if (err) {
+    //     console.log('There was a problem');
+    //   }
+    //   console.log(cursor.insertedCount);
+    //   // console.log(articles)
+    // });
+  // http://zetcode.com/javascript/mongodb/
+  // find() creates a cursor for a query that can be used to iterate over results from mongoDB
+  //renders title to webpage
+    artCol.find({}).toArray().then((docs) => {
+      console.log("found articles for index")
+      res.render('posts', { display: docs });
+      console.log(docs)
+    })
+  
+    client.close();
+  });
+  });
+
+
+// router.get('/posts/:slug')
+// router.get(':slug', (req,res, next) => {
+//   if (req.params.slug === 'posts') {
+//     return next()
+//   }
+//   res.render('posts', display)
+// })
+// router.get('/:slug', function(request, response){
+//   response.render(request.params.slug);
+// })
+
+// router.get('/posts/:slug', (req, res) => res.render('posts'))
 
 
 module.exports = router;
